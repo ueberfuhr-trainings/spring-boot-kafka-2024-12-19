@@ -1,5 +1,7 @@
 # Spring Boot - Grundlagen
 
+[![CI Build](https://github.com/ralf-ueberfuhr-ars/spring-boot-2024-06-10/actions/workflows/ci.yml/badge.svg)](https://github.com/ralf-ueberfuhr-ars/spring-boot-2024-06-10/actions/workflows/ci.yml)
+
 ## Inhalte:
 
 In diesem Projekt findest Du folgende Projekte:
