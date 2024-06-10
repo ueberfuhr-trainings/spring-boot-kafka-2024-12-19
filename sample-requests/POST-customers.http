@@ -1,0 +1,19 @@
+POST localhost:8080/api/v1/customers
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Tom Mayer",
+  "birthdate": "1985-07-30",
+  "state": "active"
+}
+
+> {%
+
+  client.test('returns valid response', () => {
+    client.assert(response.status === 201);
+    client.assert(response.headers.valueOf('Content-Type') === 'application/json');
+    //client.assert(response.body.length > 0);
+  });
+
+ %}

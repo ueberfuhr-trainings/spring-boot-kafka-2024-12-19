@@ -1,0 +1,39 @@
+GET http://localhost:8080/api/v1/customers
+Accept: application/json
+
+> {%
+
+ client.test('returns valid response', () => {
+    client.assert(response.status === 200);
+    client.assert(response.headers.valueOf('Content-Type') === 'application/json');
+    //client.assert(response.body.length > 0);
+ });
+ %}
+
+###
+
+GET http://localhost:8080/api/v1/customers
+Accept: text/html
+
+> {%
+
+  client.test('returns valid response', () => {
+    client.assert(response.status === 406);
+  });
+%}
+
+###
+
+GET http://localhost:8080/api/v1/customers?state=active
+Accept: application/json
+
+> {%
+
+  client.test('returns valid response', () => {
+    client.assert(response.status === 200);
+    client.assert(response.headers.valueOf('Content-Type') === 'application/json');
+    //client.assert(response.body.length > 0);
+  });
+%}
+
+###
