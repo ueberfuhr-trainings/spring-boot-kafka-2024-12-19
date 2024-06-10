@@ -1,4 +1,4 @@
-POST localhost:8080/api/v1/customers
+POST {{endpoint}}/customers
 Content-Type: application/json
 Accept: application/json
 
@@ -11,9 +11,25 @@ Accept: application/json
 > {%
 
   client.test('returns valid response', () => {
-    client.assert(response.status === 201);
-    client.assert(response.headers.valueOf('Content-Type') === 'application/json');
-    //client.assert(response.body.length > 0);
+    client.assert(response.status === 201, 'status code is 201');
+    client.assert(response.headers.valueOf('Content-Type') === 'application/json', 'content type is JSON');
+    client.assert(response.body['uuid'] !== undefined, 'body contains a uuid');
+    client.assert(response.headers.valueOf("Location") !== undefined, 'location header is specified');
   });
 
+  client.global.set('newCustomerUrl', response.headers.valueOf("Location"));
+
  %}
+
+###
+
+GET {{newCustomerUrl}}
+Accept: application/json
+
+> {%
+
+client.test('customer exists', () => {
+    client.assert(response.status === 200, 'status code is 200');
+  });
+
+%}

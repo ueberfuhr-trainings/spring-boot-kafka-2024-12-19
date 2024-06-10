@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class Customer {
 
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private UUID uuid;
   private String name;
   @JsonProperty("birthdate")
