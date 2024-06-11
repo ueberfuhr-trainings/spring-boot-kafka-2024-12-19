@@ -37,3 +37,6 @@ Accept: application/json
 %}
 
 ###
+
+GET {{endpoint}}/customers/870a188d-d7dd-4051-bdbe-52f90941d507
+Accept: application/json
