@@ -1,5 +1,7 @@
 package de.sample.schulung.accounts;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,8 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -41,7 +42,7 @@ class AccountsApiTests {
 
   @Test
   void shouldCreateCustomer() throws Exception {
-    var location = mvc.perform(
+    var customerUrl = mvc.perform(
         post("/api/v1/customers")
           .contentType(MediaType.APPLICATION_JSON)
           .content("""
@@ -59,17 +60,86 @@ class AccountsApiTests {
       .getResponse()
       .getHeader("Location");
 
-    assertThat(location)
+    assertThat(customerUrl)
       .isNotBlank();
-
     mvc.perform(
-        get(location)
+        get(customerUrl)
           .accept(MediaType.APPLICATION_JSON)
       )
       .andExpect(status().isOk())
       .andExpect(jsonPath("$.name").value("Tom Mayer"));
   }
 
-  // TODO: DELETE /customers/{uuid}
+
+  @Nested
+  class ExistingCustomerTests {
+
+    String customerUrl;
+
+    @BeforeEach
+    void setup() throws Exception {
+      customerUrl = mvc.perform(
+          post("/api/v1/customers")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+              {
+                "name": "Tom Mayer",
+                "birthdate": "1985-07-30",
+                "state": "active"
+              }
+              """)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isCreated())
+        .andExpect(header().exists("Location"))
+        .andReturn()
+        .getResponse()
+        .getHeader("Location");
+
+      assertThat(customerUrl)
+        .isNotBlank();
+    }
+
+    @Test
+    void shouldReplaceCustomer() throws Exception {
+      mvc.perform(
+          put(customerUrl)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+              {
+                "name": "Tom Schmidt",
+                "birthdate": "1985-07-30",
+                "state": "active"
+              }
+              """)
+        )
+        .andExpect(status().isNoContent());
+      mvc.perform(
+          get(customerUrl)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.name").value("Tom Schmidt"));
+    }
+
+    @Test
+    void shouldDeleteCustomer() throws Exception {
+      // 1. Customer erstellen --> UUID / URL
+      // (setup)
+      // 2. Customer löschen -> 204 (wenn nochmal -> 404)
+      mvc.perform(
+          delete(customerUrl)
+        )
+        .andExpect(status().isNoContent());
+      // 3. Customer abfragen -> 404
+      mvc.perform(
+          get(customerUrl)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isNotFound());
+    }
+
+  }
+
 
 }

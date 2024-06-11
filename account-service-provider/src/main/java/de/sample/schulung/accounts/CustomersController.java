@@ -78,8 +78,12 @@ public class CustomersController {
   Customer findCustomerById(
     @PathVariable UUID uuid
   ) {
-    return this.customers
+    var result = this.customers
       .get(uuid);
+    if(result == null) {
+      throw new NotFoundException();
+    }
+    return result;
   }
 
   @PutMapping(
@@ -97,5 +101,12 @@ public class CustomersController {
 
   }
 
+  @DeleteMapping("/{uuid}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  void deleteCustomer(
+    @PathVariable UUID uuid
+  ) {
+    this.customers.remove(uuid);
+  }
 
 }
