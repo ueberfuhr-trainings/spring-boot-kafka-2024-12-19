@@ -54,8 +54,6 @@ paths:
                 $ref: '#/components/schemas/Customer'
         '400':
           description: Customer is invalid
-        '403':
-          description: User does not have writer access.
   /customers/{id}:
     parameters:
       - $ref: '#/components/parameters/customerId'
