@@ -1,4 +1,4 @@
-package de.sample.schulung.accounts;
+package de.sample.schulung.accounts.boundary;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class CustomerDto {
 
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private UUID uuid;

@@ -73,7 +73,7 @@ class AccountsApiTests {
   // POST /customers (Customer mit Namen, der nur aus 1 Buchstaben besteht) -> 400
 
   @Test
-  void shouldNotCreateInvalidCustomer() throws Exception {
+  void shouldNotCreateCustomerWithInvalidName() throws Exception {
     mvc.perform(
         post("/api/v1/customers")
           .contentType(MediaType.APPLICATION_JSON)
@@ -82,6 +82,23 @@ class AccountsApiTests {
               "name": "T",
               "birthdate": "1985-07-30",
               "state": "active"
+            }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void shouldNotCreateCustomerWithInvalidState() throws Exception {
+    mvc.perform(
+        post("/api/v1/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("""
+            {
+              "name": "Tom Mayer",
+              "birthdate": "1985-07-30",
+              "state": "gelbekatze"
             }
             """)
           .accept(MediaType.APPLICATION_JSON)
