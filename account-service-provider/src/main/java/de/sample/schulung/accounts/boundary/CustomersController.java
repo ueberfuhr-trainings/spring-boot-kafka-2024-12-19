@@ -1,6 +1,5 @@
 package de.sample.schulung.accounts.boundary;
 
-import de.sample.schulung.accounts.domain.Customer;
 import de.sample.schulung.accounts.domain.CustomersService;
 import de.sample.schulung.accounts.domain.NotFoundException;
 import jakarta.validation.Valid;
@@ -20,29 +19,34 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class CustomersController {
 
   private final CustomersService service = new CustomersService();
+  private final CustomerDtoMapper mapper = new CustomerDtoMapper();
 
   @GetMapping(
     produces = MediaType.APPLICATION_JSON_VALUE)
-  Stream<Customer> getCustomers(
+  Stream<CustomerDto> getCustomers(
     @RequestParam(value = "state", required = false)
     String stateFilter
   ) {
-    return stateFilter == null
+    return (
+      stateFilter == null
       ?
       this.service
         .getCustomers()
       :
       this.service
-        .getCustomersByState(stateFilter);
+        .getCustomersByState(this.mapper.mapState(stateFilter))
+    )
+      .map(this.mapper::map);
   }
 
   @PostMapping(
     consumes = MediaType.APPLICATION_JSON_VALUE,
     produces = MediaType.APPLICATION_JSON_VALUE
   )
-  ResponseEntity<Customer> createCustomer(
-    @Valid @RequestBody Customer customer
+  ResponseEntity<CustomerDto> createCustomer(
+    @Valid @RequestBody CustomerDto body
   ) {
+    var customer = this.mapper.map(body);
     service.createCustomer(customer);
     var uri = linkTo(
       methodOn(CustomersController.class)
@@ -50,18 +54,19 @@ public class CustomersController {
     ).toUri();
     return ResponseEntity
       .created(uri)
-      .body(customer);
+      .body(this.mapper.map(customer));
   }
 
   @GetMapping(
     value = "/{uuid}",
     produces = MediaType.APPLICATION_JSON_VALUE
   )
-  Customer findCustomerById(
+  CustomerDto findCustomerById(
     @PathVariable UUID uuid
   ) {
     return this.service
       .findCustomerById(uuid)
+      .map(this.mapper::map)
       .orElseThrow(NotFoundException::new);
   }
 
@@ -72,9 +77,9 @@ public class CustomersController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   void replaceCustomer(
     @PathVariable UUID uuid,
-    @RequestBody Customer customer) {
+    @RequestBody CustomerDto customer) {
     customer.setUuid(uuid);
-    service.replaceCustomer(customer);
+    service.replaceCustomer(this.mapper.map(customer));
   }
 
   @DeleteMapping("/{uuid}")

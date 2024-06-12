@@ -1,5 +1,6 @@
-package de.sample.schulung.accounts.domain;
+package de.sample.schulung.accounts.boundary;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,16 +14,14 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Customer {
+public class CustomerDto {
 
-  public enum CustomerState {
-    ACTIVE, LOCKED, DISABLED
-  }
-
+  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private UUID uuid;
   @Size(min = 3, max = 100)
   private String name;
+  @JsonProperty("birthdate")
   private LocalDate dateOfBirth;
-  private CustomerState state;
+  private String state;
 
 }

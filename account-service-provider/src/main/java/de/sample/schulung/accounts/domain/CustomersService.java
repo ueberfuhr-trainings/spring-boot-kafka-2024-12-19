@@ -19,7 +19,7 @@ public class CustomersService {
         null,
         "Max",
         LocalDate.of(2010, Month.FEBRUARY, 10),
-        "active"
+        Customer.CustomerState.ACTIVE
       )
     );
     this.createCustomer(
@@ -27,7 +27,7 @@ public class CustomersService {
         UUID.randomUUID(),
         "Julia",
         LocalDate.of(2011, Month.APRIL, 2),
-        "disabled"
+        Customer.CustomerState.DISABLED
       )
     );
   }
@@ -38,7 +38,7 @@ public class CustomersService {
       .stream();
   }
 
-  public Stream<Customer> getCustomersByState(String state) { // TODO enum?
+  public Stream<Customer> getCustomersByState(Customer.CustomerState state) { // TODO enum?
     return this.getCustomers()
       .filter(customer -> state.equals(customer.getState()));
   }
