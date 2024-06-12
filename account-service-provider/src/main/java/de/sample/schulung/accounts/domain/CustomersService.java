@@ -1,5 +1,7 @@
 package de.sample.schulung.accounts.domain;
 
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.HashMap;
@@ -8,6 +10,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Service
 public class CustomersService {
 
   private final Map<UUID, Customer> customers = new HashMap<>();

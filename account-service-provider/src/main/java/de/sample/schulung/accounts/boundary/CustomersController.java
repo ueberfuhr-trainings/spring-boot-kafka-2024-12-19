@@ -3,6 +3,7 @@ package de.sample.schulung.accounts.boundary;
 import de.sample.schulung.accounts.domain.CustomersService;
 import de.sample.schulung.accounts.domain.NotFoundException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/api/v1/customers")
+@RequiredArgsConstructor
 public class CustomersController {
 
-  private final CustomersService service = new CustomersService();
-  private final CustomerDtoMapper mapper = new CustomerDtoMapper();
+  private final CustomersService service;
+  private final CustomerDtoMapper mapper;
 
   @GetMapping(
     produces = MediaType.APPLICATION_JSON_VALUE)

@@ -2,7 +2,9 @@ package de.sample.schulung.accounts.boundary;
 
 import de.sample.schulung.accounts.domain.Customer;
 import jakarta.validation.ValidationException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomerDtoMapper {
 
   // TODO Mapper-Generierung mit MapStruct
