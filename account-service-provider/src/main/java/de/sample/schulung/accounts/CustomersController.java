@@ -1,5 +1,6 @@
 package de.sample.schulung.accounts;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +58,7 @@ public class CustomersController {
     produces = MediaType.APPLICATION_JSON_VALUE
   )
   ResponseEntity<Customer> createCustomer(
-    @RequestBody Customer customer
+    @Valid @RequestBody Customer customer
   ) {
     var uuid = UUID.randomUUID();
     customer.setUuid(uuid);
