@@ -70,6 +70,24 @@ class AccountsApiTests {
       .andExpect(jsonPath("$.name").value("Tom Mayer"));
   }
 
+  // POST /customers (Customer mit Namen, der nur aus 1 Buchstaben besteht) -> 400
+
+  @Test
+  void shouldNotCreateInvalidCustomer() throws Exception {
+    mvc.perform(
+        post("/api/v1/customers")
+          .contentType(MediaType.APPLICATION_JSON)
+          .content("""
+            {
+              "name": "T",
+              "birthdate": "1985-07-30",
+              "state": "active"
+            }
+            """)
+          .accept(MediaType.APPLICATION_JSON)
+      )
+      .andExpect(status().isBadRequest());
+  }
 
   @Nested
   class ExistingCustomerTests {
