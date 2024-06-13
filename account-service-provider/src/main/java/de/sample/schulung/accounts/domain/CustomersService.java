@@ -1,6 +1,9 @@
 package de.sample.schulung.accounts.domain;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -10,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Validated
 @Service
 public class CustomersService {
 
@@ -41,24 +45,24 @@ public class CustomersService {
       .stream();
   }
 
-  public Stream<Customer> getCustomersByState(Customer.CustomerState state) { // TODO enum?
+  public Stream<Customer> getCustomersByState(@NotNull Customer.CustomerState state) { // TODO enum?
     return this.getCustomers()
       .filter(customer -> state.equals(customer.getState()));
   }
 
-  public void createCustomer(Customer customer) {
+  public void createCustomer(@Valid Customer customer) {
     var uuid = UUID.randomUUID();
     customer.setUuid(uuid);
     this.customers.put(customer.getUuid(), customer);
   }
 
-  public Optional<Customer> findCustomerById(UUID uuid) {
+  public Optional<Customer> findCustomerById(@NotNull UUID uuid) {
     return Optional.ofNullable(
       this.customers.get(uuid)
     );
   }
 
-  public void replaceCustomer(Customer customer) {
+  public void replaceCustomer(@Valid Customer customer) {
     if (this.exists(customer.getUuid())) {
       this.customers.put(customer.getUuid(), customer);
     } else {
@@ -66,7 +70,7 @@ public class CustomersService {
     }
   }
 
-  public void deleteCustomer(UUID uuid) {
+  public void deleteCustomer(@NotNull UUID uuid) {
     if (this.exists(uuid)) {
       this.customers.remove(uuid);
     } else {
