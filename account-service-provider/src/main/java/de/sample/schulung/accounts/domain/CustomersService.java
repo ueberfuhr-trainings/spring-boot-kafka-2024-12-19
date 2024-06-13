@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -18,26 +16,6 @@ import java.util.stream.Stream;
 public class CustomersService {
 
   private final Map<UUID, Customer> customers = new HashMap<>();
-
-  // TODO ???
-  {
-    this.createCustomer(
-      new Customer(
-        null,
-        "Max",
-        LocalDate.of(2010, Month.FEBRUARY, 10),
-        Customer.CustomerState.ACTIVE
-      )
-    );
-    this.createCustomer(
-      new Customer(
-        UUID.randomUUID(),
-        "Julia",
-        LocalDate.of(2011, Month.APRIL, 2),
-        Customer.CustomerState.DISABLED
-      )
-    );
-  }
 
   public Stream<Customer> getCustomers() {
     return customers
