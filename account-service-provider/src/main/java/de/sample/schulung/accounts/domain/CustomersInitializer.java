@@ -14,20 +14,33 @@ import java.time.Month;
 import java.util.UUID;
 
 @Component
-@ConfigurationProperties(prefix = "application.customers.initialization")
 @RequiredArgsConstructor
 @Slf4j
 public class CustomersInitializer {
 
-  private final CustomersService service;
-
+  /*
+   * let's use a separate class for the configuration
+   *  - default constructor
+   *  - injected into the CustomersInitializer
+   *  - could be placed in a separate JAVA file too
+   */
+  @Component
+  @ConfigurationProperties(prefix = "application.customers.initialization")
   @Getter
   @Setter
-  private boolean enabled;
+  public static class CustomerInitialerConfiguration {
+
+    private boolean enabled;
+
+  }
+
+  private final CustomersService service;
+  private final CustomerInitialerConfiguration config;
+
 
   @EventListener(ContextRefreshedEvent.class)
   public void init() {
-    if(this.enabled) {
+    if(this.config.enabled) {
       log.info("Initializing customers");
       service.createCustomer(
         new Customer(
