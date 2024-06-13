@@ -37,7 +37,7 @@ public class CustomerDtoMapper {
 
   public Customer.CustomerState mapState(String source) {
     return switch (source) {
-      case "active" ->Customer.CustomerState.ACTIVE;
+      case "active" -> Customer.CustomerState.ACTIVE;
       case "locked" -> Customer.CustomerState.LOCKED;
       case "disabled" -> Customer.CustomerState.DISABLED;
       default -> throw new ValidationException();
