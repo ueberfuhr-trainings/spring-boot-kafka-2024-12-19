@@ -1,0 +1,4 @@
+application:
+  customers:
+    initialization:
+      enabled: true
