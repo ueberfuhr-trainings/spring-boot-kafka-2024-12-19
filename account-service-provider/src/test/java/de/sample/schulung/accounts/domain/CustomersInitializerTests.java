@@ -8,7 +8,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest
+@SpringBootTest(
+  properties = {
+    "application.customers.initialization.enabled=true"
+  }
+)
 public class CustomersInitializerTests {
 
   @MockBean
