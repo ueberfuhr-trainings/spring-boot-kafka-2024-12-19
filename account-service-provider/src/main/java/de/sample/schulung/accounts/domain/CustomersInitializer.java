@@ -18,6 +18,10 @@ import java.util.UUID;
 @Slf4j
 public class CustomersInitializer {
 
+  // TODO Enable by Auto-configuration
+  // TODO make Customer Sample Provider injectable
+  // TODO create one that allows configuration by application.yml
+
   /*
    * let's use a separate class for the configuration
    *  - default constructor
@@ -40,7 +44,7 @@ public class CustomersInitializer {
 
   @EventListener(ContextRefreshedEvent.class)
   public void init() {
-    if(this.config.enabled) {
+    if(this.config.enabled && this.service.count() < 1) {
       log.info("Initializing customers");
       service.createCustomer(
         new Customer(

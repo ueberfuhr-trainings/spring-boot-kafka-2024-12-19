@@ -2,6 +2,7 @@ package de.sample.schulung.accounts.domain;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.Month;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
+@AutoConfigureTestDatabase
 public class CustomersServiceTest {
 
   @Autowired
