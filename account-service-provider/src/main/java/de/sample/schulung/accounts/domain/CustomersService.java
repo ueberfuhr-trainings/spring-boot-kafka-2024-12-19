@@ -1,10 +1,10 @@
 package de.sample.schulung.accounts.domain;
 
 import de.sample.schulung.accounts.domain.Customer.CustomerState;
-import de.sample.schulung.accounts.domain.sink.CustomersSink;
 import de.sample.schulung.accounts.domain.events.CustomerCreatedEvent;
 import de.sample.schulung.accounts.domain.events.CustomerDeletedEvent;
 import de.sample.schulung.accounts.domain.events.CustomerReplacedEvent;
+import de.sample.schulung.accounts.domain.sink.CustomersSink;
 import de.sample.schulung.accounts.shared.interceptors.PublishEvent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
