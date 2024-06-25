@@ -1,5 +1,9 @@
 package de.sample.schulung.accounts.domain;
 
+import de.sample.schulung.accounts.domain.events.CustomerCreatedEvent;
+import de.sample.schulung.accounts.domain.events.CustomerDeletedEvent;
+import de.sample.schulung.accounts.domain.events.CustomerReplacedEvent;
+import de.sample.schulung.accounts.shared.interceptors.PublishEvent;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,7 @@ public class CustomersService {
       .filter(customer -> state.equals(customer.getState()));
   }
 
+  @PublishEvent(CustomerCreatedEvent.class)
   public void createCustomer(@Valid Customer customer) {
     var uuid = UUID.randomUUID();
     customer.setUuid(uuid);
@@ -40,6 +45,7 @@ public class CustomersService {
     );
   }
 
+  @PublishEvent(CustomerReplacedEvent.class)
   public void replaceCustomer(@Valid Customer customer) {
     if (this.exists(customer.getUuid())) {
       this.customers.put(customer.getUuid(), customer);
@@ -48,6 +54,7 @@ public class CustomersService {
     }
   }
 
+  @PublishEvent(CustomerDeletedEvent.class)
   public void deleteCustomer(@NotNull UUID uuid) {
     if (this.exists(uuid)) {
       this.customers.remove(uuid);
