@@ -10,6 +10,7 @@
 
   <modules>
     <module>account-service-provider</module>
+    <module>statistics-service-provider</module>
   </modules>
 
 </project>

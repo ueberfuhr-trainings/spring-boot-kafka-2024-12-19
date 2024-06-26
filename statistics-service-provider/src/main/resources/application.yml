@@ -1,0 +1,21 @@
+server:
+  port: 8081
+spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  datasource:
+    url: jdbc:h2:./.local-db/statistics
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  h2:
+    console:
+      path: /db
+      enabled: true
+application:
+  init-sample-data:
+    enabled: true
