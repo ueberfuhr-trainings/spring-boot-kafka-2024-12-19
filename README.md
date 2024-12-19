@@ -1,6 +1,6 @@
 # Spring Boot - Kafka
 
-[![CI Build](https://github.com/ralf-ueberfuhr-ars/spring-boot-kafka-2024-06-27/actions/workflows/ci.yml/badge.svg)](https://github.com/ralf-ueberfuhr-ars/spring-boot-kafka-2024-06-27/actions/workflows/ci.yml)
+[![CI Build](https://github.com/ueberfuhr-trainings/spring-boot-kafka-2024-12-19/actions/workflows/ci.yml/badge.svg)](https://github.com/ueberfuhr-trainings/spring-boot-kafka-2024-12-19/actions/workflows/ci.yml)
 
 ## Inhalte:
 
