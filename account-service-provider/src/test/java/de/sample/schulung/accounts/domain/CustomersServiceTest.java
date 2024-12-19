@@ -1,5 +1,6 @@
 package de.sample.schulung.accounts.domain;
 
+import de.sample.schulung.accounts.kafka.AutoConfigureKafkaTemplateMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @AutoConfigureTestDatabase
+@AutoConfigureKafkaTemplateMock
 public class CustomersServiceTest {
 
   @Autowired
