@@ -20,12 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest(
-  // disable initializer for these tests
-  properties = {
-    "application.customers.initialization.enabled=false"
-  }
-)
+@SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 public class AccountsBoundaryTests {
