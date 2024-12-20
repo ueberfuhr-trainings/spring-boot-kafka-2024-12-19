@@ -1,5 +1,6 @@
 package de.sample.schulung.accounts;
 
+import de.sample.schulung.accounts.kafka.AutoConfigureKafkaTemplateMock;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -15,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
+@AutoConfigureKafkaTemplateMock
 public class IndexPageTests {
 
   @Autowired
@@ -23,8 +25,8 @@ public class IndexPageTests {
   @Test
   void shouldRedirectIndexPage() throws Exception {
     var location = mvc.perform(
-      get("/")
-    )
+        get("/")
+      )
       .andExpect(status().isFound())
       .andExpect(header().exists("Location"))
       .andReturn()

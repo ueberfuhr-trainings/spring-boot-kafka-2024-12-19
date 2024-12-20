@@ -16,3 +16,16 @@ spring:
     console:
       path: /db
       enabled: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.UUIDSerializer
+      value-serializer: de.sample.schulung.accounts.kafka.CustomJsonSerializer
+      properties:
+        # do not serialize the class name into the message
+        "[spring.json.add.type.headers]": false
+    admin:
+      auto-create: ${AUTO_CREATE_TOPIC:true}
+application:
+  kafka:
+    customer-events-topic: customer-events
