@@ -2,11 +2,16 @@
 
 [![CI Build](https://github.com/ueberfuhr-trainings/spring-boot-kafka-2024-12-19/actions/workflows/ci.yml/badge.svg)](https://github.com/ueberfuhr-trainings/spring-boot-kafka-2024-12-19/actions/workflows/ci.yml)
 
+## Dokumentation
+
+Allgemeine Dokumentation zu Kafka findest Du [hier](docs).
+
 ## Inhalte:
 
 In diesem Projekt findest Du folgende Projekte:
 
-- [Account Service Provider](./account-service-provider)
+- [Account Service Provider](account-service-provider)
+- [Statistics Service Provider](statistics-service-provider)
 
 ## Bauen und Starten
 
