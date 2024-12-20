@@ -6,9 +6,12 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.annotation.RetryableTopic;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -18,12 +21,28 @@ public class CustomerEventListener {
 
   private final CustomersService customersService;
 
+  /*
+   * Auto-creates or needs the following topics:
+   *  - customer-events-retry-500-0
+   *  - customer-events-retry-1000-0
+   *  - customer-events-retry-2000-0
+   *  - customer-events-retry-4000-0
+   *  - customer-events-dlt-0
+   */
+  @RetryableTopic(
+    attempts = "5",
+    backoff = @Backoff(
+      delay = 500L,
+      multiplier = 2
+    )
+  )
   @KafkaListener(
     topics = "${application.kafka.customer-events-topic}"
   )
   public void consume(
     @Payload CustomerEventRecord record,
-    @Header(KafkaHeaders.RECEIVED_PARTITION) int partition
+    @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
+    Acknowledgment acknowledgement
   ) {
     log.info(
       "Received record: {} {} from partition: {}",
@@ -31,6 +50,10 @@ public class CustomerEventListener {
       record.uuid(),
       partition
     );
+    // Use this to test a processing error.
+    // if (true) {
+    //   throw new RuntimeException("processing error");
+    // }
     switch (record.eventType()) {
       case "created":
       case "replaced":
@@ -52,6 +75,7 @@ public class CustomerEventListener {
       default:
         throw new ValidationException();
     }
+    acknowledgement.acknowledge();
   }
 
 }
