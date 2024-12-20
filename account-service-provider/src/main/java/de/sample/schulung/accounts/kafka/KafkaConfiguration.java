@@ -8,13 +8,13 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaConfiguration {
 
-  @Bean
-  public NewTopic customerEventsTopic(KafkaApplicationConfiguration config) {
-    return TopicBuilder
-      .name(config.getCustomerEventsTopic())
-      .partitions(5)
-      .replicas(1)
-      .build();
-  }
+    @Bean
+    public NewTopic customerEventsTopic(KafkaApplicationConfiguration config) {
+        return TopicBuilder
+                .name(config.getCustomerEventsTopic())
+                .partitions(config.getCustomerEventsPartitions())
+                .replicas(1)
+                .build();
+    }
 
 }

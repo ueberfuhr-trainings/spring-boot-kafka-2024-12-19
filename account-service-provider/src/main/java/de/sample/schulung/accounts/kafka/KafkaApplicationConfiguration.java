@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Setter
 public class KafkaApplicationConfiguration {
 
-  private String customerEventsTopic = "customer-events";
+    private String customerEventsTopic = "customer-events";
+    private int customerEventsPartitions = 1;
 
 }

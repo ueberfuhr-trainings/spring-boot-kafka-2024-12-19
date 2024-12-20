@@ -29,3 +29,4 @@ spring:
 application:
   kafka:
     customer-events-topic: customer-events
+    customer-events-partitions: 5
